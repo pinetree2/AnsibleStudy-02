@@ -1,0 +1,34 @@
+---
+- name: Install httpd webserver
+  hosts: webserver
+  vars:
+    var1: "test team"
+  tasks:
+    - name: Apache install
+      yum:
+        name: httpd
+        state: latest
+    - name: Php install
+      yum:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - php
+        - php-common
+        - php-opcache
+        - php-cli
+        - php-gd
+        - php-curl
+        - php-mysqlnd
+        - php-mysqli
+    - name: httpd  running
+      service:
+        name: httpd
+        state: restarted
+        enabled: yes
+
+    - name: create config file from template
+      ansible.builtin.template:
+        src: /home/ansible-user/workshop/source/index.php.j2
+        dest: /var/www/html/index.php
+    

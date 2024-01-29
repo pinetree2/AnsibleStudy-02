@@ -1,0 +1,24 @@
+---
+- name: install mysql mariadb-serve install
+  hosts: dbserver
+  become: true
+  tasks:
+    - name: install mariadb-server
+      yum:
+        name: mariadb105-server
+        state: latest
+      
+    - name: sql file copy 
+      copy:
+        src: ./source/create_db_webtest.sql
+        dest: /tmp/create_db_webtest.sql
+        mode: 0664
+    - name: execute mariadb
+      systemd:
+        name: mariadb
+        state: started
+
+    - name: Execute SQL file using MySQL Client
+      shell: "mysql -uroot < /tmp/create_db_webtest.sql"
+          
+          
