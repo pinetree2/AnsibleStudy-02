@@ -1,0 +1,12 @@
+---
+- name: connection
+  hosts: serverb
+  tasks:
+    - name: copy 
+      copy: 
+        src: ./source/process_create.php
+        dest: /var/www/html/process_create.php
+    - name: copy create
+      copy: 
+        src: ./source/create.php
+        dest: /var/www/html/create.php

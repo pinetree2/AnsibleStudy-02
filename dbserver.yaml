@@ -17,8 +17,16 @@
       systemd:
         name: mariadb
         state: started
+      # notify : execute_sql
 
     - name: Execute SQL file using MySQL Client
       shell: "mysql -uroot < /tmp/create_db_webtest.sql"
+      register: db_result
+      ignore_errors: true
+    - debug:
+        var: db_result
           
+   # - handlers:
+    #- name: execute_sql 
+        
           
